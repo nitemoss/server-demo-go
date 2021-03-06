@@ -34,7 +34,7 @@ func main() {
 
 		fmt.Println(data)
 		err = binary.Write(&buf, binary.LittleEndian, data)
-		time.Sleep(1 * time.Second)
+		time.Sleep(100 * time.Millisecond)
 		_, err = conn.Write(buf.Bytes())
 		if err != nil {
 			fmt.Println(err)
