@@ -19,18 +19,19 @@ func main() {
 	}
 
 	w, h := termbox.Size()
+
 	var data struct {
 		X int32
 		Y int32
 	}
+
 	var buf bytes.Buffer
+
 	for {
 
 		data.X = int32(rand.Intn(w))
 		data.Y = int32(rand.Intn(h))
 
-
-		// fmt.Printf("%T\n", data.X)
 		fmt.Println(data)
 		err = binary.Write(&buf, binary.LittleEndian, data)
 		time.Sleep(1 * time.Second)
@@ -39,11 +40,7 @@ func main() {
 			fmt.Println(err)
 			return
 		}
-
-
-
-
+		buf.Reset()
 	}
-
 	conn.Close()
 }

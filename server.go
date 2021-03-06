@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// err := termbox.Init()
+	err := termbox.Init()
 	adr, err := net.ResolveUDPAddr("udp", "127.0.0.1:10234")
 	if err != nil {
 		fmt.Println(err)
@@ -23,7 +23,7 @@ func main() {
 	}
 
 	for i := 0; i <= 10; i++ {
-		fmt.Println("new conn")
+		// fmt.Println("new conn")
 		handleConnection(listener, i)
 	}
 	termbox.Close()
@@ -45,16 +45,16 @@ func handleConnection(con *net.UDPConn, i int) {
 	}
 
 	err = binary.Read(buff, binary.LittleEndian, &data)
-	fmt.Print(data) // проблема здесь - сервер получает одно и то же сообщение, хотя клиент каждый раз отправляет разные
+	// fmt.Print(data) // проблема здесь - сервер получает одно и то же сообщение, хотя клиент каждый раз отправляет разные
 
 
 	if err != nil {
-		fmt.Println(err)
 		return
 	}
 
 	termbox.SetCell(int(data.X), int(data.Y), '*', termbox.ColorRed, termbox.ColorDefault)
 	termbox.Flush()
+	// buff.Reset(make([]byte, 4000))
 
 
 	// fmt.Println(data)
