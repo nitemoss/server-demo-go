@@ -1,0 +1,18 @@
+{
+    "action":"create",
+    "object":"Teacher",
+    "data":{
+        "subject":"Math",
+        "salary":2345,
+        "classroom":[
+            "CL-001",
+            "CL-002",
+            "CL-005"
+        ],
+        "person":{
+            "name":"Ivan",
+            "surname":"Popov",
+            "personalCode":"123422-43235"
+        }
+    }
+}

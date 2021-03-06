@@ -1,0 +1,7 @@
+{
+    "action":"read",
+    "object":"Teacher",
+    "data":{
+        "id":"001"
+    }
+}

@@ -3,6 +3,7 @@ package main
 import (
 	"net"
 	"fmt"
+	"encoding/json"
 )
 
 type Data struct {
@@ -23,6 +24,7 @@ func main() {
 	dat.Ch <- 1
 
 	for {
+		fmt.Println("new conn")
 		conn, err := l.Accept()
 		if err != nil {
 			fmt.Println(err)
@@ -41,13 +43,20 @@ func HandleConnection(conn net.Conn) {
 		return
 	}
 
+	var readableData []byte
+	json.Unmarshal(buf, &readableData)
+	fmt.Println(readableData)
 	<- dat.Ch
 
 	fmt.Println(string(buf[:n]))
 	dat.N = string(buf[:n])
 
+	
+
 	data := []byte("Connection great")
 	conn.Write(data)
+
+	fmt.Println("response sent")
 
 	dat.Ch <- 1
 

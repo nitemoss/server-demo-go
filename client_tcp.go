@@ -3,7 +3,19 @@ package main
 import (
 	"net"
 	"fmt"
+	// "encoding/json"
+	"io/ioutil"
 )
+
+func fileCommand(filename string){
+	text, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Println(err)
+		panic(err)
+		return
+	}
+	return text
+}
 
 func main() {
 	conn, err := net.Dial("tcp", "127.0.0.1:12667")
@@ -12,10 +24,22 @@ func main() {
 	}
 	defer conn.Close()
 
-	var s string
-	fmt.Scan(&s)
 
-	conn.Write([]byte(s))
+	// var s string
+
+
+	fmt.Println("Sending 'create' command...")
+	var text = fileCommand("data.json")
+	// err = json.Unmarshal(text, &act)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return
+	// }
+
+	bytes := []byte(text)
+	fmt.Println(bytes)
+
+	conn.Write(bytes)
 
 	buf := make([]byte, 2000)
 
@@ -24,5 +48,6 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(string(buf[:n]))
+	fmt.Println(n, buf)
+
 }

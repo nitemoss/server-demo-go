@@ -1,0 +1,7 @@
+{
+    "action":"delete",
+    "object":"Teacher",
+    "data":{
+        "id":"001"
+    }
+}
