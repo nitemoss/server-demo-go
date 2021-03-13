@@ -72,7 +72,7 @@ func (action *UpdateTeacher) GetFromJSON (rawData []byte) {
 	}
 }
 func (action UpdateTeacher) Process() {
-	
+
 }
 
 type ReadTeacher struct {
@@ -114,14 +114,14 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	
+
 	var act Action
 	err = json.Unmarshal(text, &act)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	
+
 	var obj GeneralObject
 	switch act.ObjName {
 	case "Teacher":
@@ -136,8 +136,8 @@ func main() {
 	case "read":
 		toDo = obj.GetReadAction()
 	}
-	
+
 	toDo.GetFromJSON(text)
-	
+
 	toDo.Process()
 }

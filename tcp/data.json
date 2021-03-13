@@ -1,5 +1,5 @@
 {
-    "action":"create",
+    "action": "create",
     "object":"Teacher",
     "data":{
         "subject":"Math",
