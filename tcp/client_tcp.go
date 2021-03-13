@@ -25,16 +25,10 @@ func main() {
 	defer conn.Close()
 
 
-	// var s string
-
 
 	fmt.Println("Sending 'create' command...")
-	var text = fileCommand("data.json")
-	// err = json.Unmarshal(text, &act)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
+	var text = fileCommand("json/data.json")
+
 
 	bytes := []byte(text)
 	fmt.Println(bytes)
