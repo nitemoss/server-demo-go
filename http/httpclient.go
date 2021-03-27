@@ -5,7 +5,25 @@ import (
 	"io"
 	"io/ioutil"
 	"bytes"
+	"fmt"
+	"os"
 )
+
+
+func fileCommand(filename string) []byte{
+	jsonFile, err := os.Open("../tcp/" + filename)
+	if err != nil {
+		fmt.Println("error", err)
+	}
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		fmt.Println("error", err)
+	}
+	fmt.Println(byteValue)
+	return byteValue
+
+}
+
 
 func main() {
 	client := &http.Client{}
@@ -13,10 +31,27 @@ func main() {
 	var body bytes.Buffer
 
 
+	var method string
 
-	body.Write([]byte("Hello server!"))
+	fmt.Println("Method: ")
+	fmt.Scanln(&method)
 
-	req, err := http.NewRequest("PUT", "http://localhost:8080/", &body)
+	var cmd string
+	fmt.Print("(data/update/delete/read    .json): ")
+	fmt.Scanln(&cmd)
+
+
+	var text = fileCommand(cmd)
+
+
+
+	fmt.Println(text)
+
+
+
+	body.Write([]byte(text))
+
+	req, err := http.NewRequest(method, "http://localhost:8080/", &body)
 
 	resp, err := client.Do(req)
 	fmt.Printf("%+v\n", resp)
