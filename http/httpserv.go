@@ -120,8 +120,9 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	fmt.Printf("%+v\n", req)
 	fmt.Println(req.Method)
 	fmt.Println(req.Body)
+	data, err := io.ReadAll(req.Body)
 	if req.Method == "POST" {
-		data, err := io.ReadAll(req.Body)
+
 		req.Body.Close()
 		if err != nil {
 			return
@@ -130,7 +131,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 		fmt.Printf("%s\n", data)
 		io.WriteString(w, "successful post")
 	} else if req.Method == "GET" {
-		data, err := io.ReadAll(req.Body)
+
 		req.Body.Close()
 		if err != nil {return }
 
@@ -142,8 +143,29 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 	var act Action
 	var readableData map[string]interface{}
-	json.Unmarshal(req.Body, &readableData)
+	json.Unmarshal(data, &readableData)
+	json.Unmarshal(data, &act)
 	fmt.Println("Received", readableData["action"], " command")
+
+	var obj GeneralObject
+
+	switch act.ObjName {
+	case "Teacher":
+		obj = &Teacher{}
+	}
+
+	var toDo DefinedAction
+	switch act.Action {
+		case "create":
+			toDo = obj.GetCreateAction()
+		case "update":
+			toDo = obj.GetUpdateAction()
+		case "read":
+			toDo = obj.GetReadAction()
+	}
+	toDo.GetFromJSON(data)
+
+	toDo.Process()
 
 }
 
