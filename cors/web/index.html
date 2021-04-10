@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+</head>
+
+<body>
+  <script src="js/scripts.js"></script>
+  <p>Method. GET/HEAD method cannot have body</p>
+
+  <select id="method">
+    <option value="GET">GET</option>
+    <option value="POST" selected="selected">POST</option>
+    <option value="PUT">PUT</option>
+    <option value="OPTIONS">OPTIONS</option>
+    <option value="PATCH">PATCH</option>
+
+
+
+  </select>
+  <!-- <input type="text" id="method" name="method"><br><br> -->
+
+
+  <p>Url</p>
+  <input type="text" id="url" name="url" value="http://localhost:8080"><br><br>
+  <p>Body</p>
+  <input type="text" id="body" name="body"><br><br>
+  <button type="button" onclick="pop()">Click Me!</button><br><br>
+  <div>
+	  Response:
+  </div>
+  <div id="resp">
+	Nothing
+  </div>
+</body>
+</html>

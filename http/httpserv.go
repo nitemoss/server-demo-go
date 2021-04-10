@@ -113,6 +113,10 @@ func (action DeleteTeacher) Process() {
 
 
 func Handler(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+  w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+  w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.WriteHeader(http.StatusOK)
 	/*if req.Method == "GET" {
 		io.WriteString(w, `<a href="/page1">GOTO PAGE1</a>`)
 		//w.Write()
@@ -141,32 +145,33 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(405)
 	}
 
-	var act Action
-	var readableData map[string]interface{}
-	json.Unmarshal(data, &readableData)
-	json.Unmarshal(data, &act)
-	fmt.Println("Received", readableData["action"], " command")
+	// var act Action
+	// var readableData map[string]interface{}
+	// json.Unmarshal(data, &readableData)
+	// json.Unmarshal(data, &act)
+	// fmt.Println("Received", readableData["action"], " command")
+	//
+	// var obj GeneralObject
+	//
+	// switch act.ObjName {
+	// case "Teacher":
+	// 	obj = &Teacher{}
+	// }
+	//
+	// var toDo DefinedAction
+	// switch act.Action {
+	// 	case "create":
+	// 		toDo = obj.GetCreateAction()
+	// 	case "update":
+	// 		toDo = obj.GetUpdateAction()
+	// 	case "read":
+	// 		toDo = obj.GetReadAction()
+	// }
+	// toDo.GetFromJSON(data)
+	//
+	// toDo.Process()
 
-	var obj GeneralObject
-
-	switch act.ObjName {
-	case "Teacher":
-		obj = &Teacher{}
-	}
-
-	var toDo DefinedAction
-	switch act.Action {
-		case "create":
-			toDo = obj.GetCreateAction()
-		case "update":
-			toDo = obj.GetUpdateAction()
-		case "read":
-			toDo = obj.GetReadAction()
-	}
-	toDo.GetFromJSON(data)
-
-	toDo.Process()
-
+	io.WriteString(w, "You are on page1")
 }
 
 func Handler2(w http.ResponseWriter, req *http.Request) {
