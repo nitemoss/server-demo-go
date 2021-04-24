@@ -16,6 +16,8 @@
   <script src="js/scripts.js"></script>
   <p>Method. GET/HEAD method cannot have body</p>
 
+  <p id="auth_status">No access token</p>
+
   <select id="method">
     <option value="GET">GET</option>
     <option value="POST" selected="selected">POST</option>
@@ -31,6 +33,11 @@
 
   <p>Url</p>
   <input type="text" id="url" name="url" value="http://localhost:8080"><br><br>
+  <p>Username</p>
+  <input type="text" id="username" value="root" name="body"><br><br>
+  <p>Password</p>
+  <input type="text" id="password" value="password#12345" name="body"><br><br>
+
   <p>Body</p>
   <input type="text" id="body" name="body"><br><br>
   <button type="button" onclick="pop()">Click Me!</button><br><br>
