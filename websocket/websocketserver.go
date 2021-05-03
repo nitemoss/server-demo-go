@@ -4,26 +4,18 @@ import (
 	"net/http"
 	"io"
 	"log"
-	"strings"
 	"github.com/gorilla/websocket"
-	"fmt"
-	"reflect"
+	"strings"
 )
 
-
-var current_id = 0
-
-var upgrader = websocket.Upgrader{}
-
-type Peer struct {
+type Client struct {
 	RemoteAddr string
-
 	Conn *websocket.Conn
 }
 
+var clients []Client
 
-var peers []Peer;
-
+var upgrader = websocket.Upgrader{}
 
 func Handler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin","*")
@@ -46,51 +38,32 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 }
 
 func Socket(w http.ResponseWriter, req *http.Request) {
-	fmt.Println("Started new socket")
-	// fmt.Printf("%+v\n", req)
-	// fmt.Println(req.RemoteAddr)
-
-
-	current_id += 1
-	var local_id = current_id
-	fmt.Println(local_id)
-
 	conn, err := upgrader.Upgrade(w, req, nil)
-	fmt.Println(reflect.TypeOf(conn))
+
+	clients = append(clients, Client{req.RemoteAddr, conn})
+	// log.Println(clients)
 
 	if err != nil {
 		log.Println(err)
 		return
 	}
-
-	peer := Peer{
-		 req.RemoteAddr,
-		 conn,
-	}
-	peers = append(peers, peer)
-	fmt.Println(peers)
 	for {
-
 		messageType, p, err := conn.ReadMessage()
-		readable_message := strings.Join(strings.Split(string(p), "%%%%"), ": " + req.RemoteAddr)
+		readable_message := strings.Join(strings.Split(string(p), "%%%%"), ": ")
+		log.Println(readable_message)
 		if err != nil {
 			log.Println(err)
 			return
 		}
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
-		}
-		log.Println(req.RemoteAddr, readable_message)
-		// for _, v := range peers {
-		// 	fmt.Println(v.RemoteAddr, req.RemoteAddr)
-		// 	if v.RemoteAddr != req.RemoteAddr {
-		// 		fmt.Println("Need to send to ", v.RemoteAddr)
-		// 		fmt.Println(v.RemoteAddr, req.RemoteAddr)
-		// 		v.Conn.WriteMessage(messageType, p)
-		// 	}
-		// }
 
+
+		for _, c := range clients {
+			if err := c.Conn.WriteMessage(messageType, p); err != nil {
+				log.Println(err)
+				return
+			}
+
+		}
 
 	}
 }
